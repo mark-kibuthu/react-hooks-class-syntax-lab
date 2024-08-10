@@ -18,17 +18,16 @@ test("renders without errors", () => {
 });
 
 test("renders the correct child components", () => {
-  const { container } = render(<App />);
-  expect(container.querySelector("nav")).toBeInTheDocument();
-  expect(container.querySelector("#home")).toBeInTheDocument();
-  expect(container.querySelector("#about")).toBeInTheDocument();
+  render(<App />);
+  expect(screen.queryByRole('navigation')).toBeInTheDocument();
+  expect(screen.queryByText(`${user.name} is a Web Developer from ${user.city}`)).toBeInTheDocument();
+  expect(screen.queryByText(user.bio)).toBeInTheDocument();
+  expect(screen.queryByText("Links")).toBeInTheDocument(); // Ensure Links is rendered
 });
 
 test("passes 'name', 'city', and 'color' to <Home> as props", () => {
   render(<App />);
-  const h1 = screen.queryByText(
-    `${user.name} is a Web Developer from ${user.city}`
-  );
+  const h1 = screen.queryByText(`${user.name} is a Web Developer from ${user.city}`);
   expect(h1).toBeInTheDocument();
   expect(h1.style.color).toEqual(user.color);
 });
